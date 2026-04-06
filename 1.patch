@@ -1,0 +1,557 @@
+diff --git a/app/build.gradle b/app/build.gradle
+index 0028634..bb1c7b5 100644
+--- a/app/build.gradle
++++ b/app/build.gradle
+@@ -11,14 +11,14 @@ android {
+     compileSdk 33
+ 
+     defaultConfig {
+-        applicationId "InfinityLoop1309.NewPipeEnhanced"
+-        resValue "string", "app_name", "PipePipe"
++        applicationId "com.pipepipe"
++        resValue "string", "app_name", "Pipe490"
+         minSdk 21
+         //noinspection ExpiredTargetSdkVersion
+         targetSdk 33
+         versionCode 1095
+         versionName "4.9.0"
+-        archivesBaseName = 'PipePipe_' + versionName
++        //archivesBaseName = 'PipePipe_' + versionName
+ 
+         multiDexEnabled true
+ 
+@@ -36,9 +36,9 @@ android {
+         abi {
+             reset()
+             enable true
+-            universalApk true // If true, also generate a universal APK
+-            include "armeabi-v7a", "arm64-v8a", "x86_64", "x86"
+-//            include "arm64-v8a"
++            universalApk false // If true, also generate a universal APK
++//            include "armeabi-v7a", "arm64-v8a", "x86_64", "x86"
++            include "arm64-v8a"
+         }
+     }
+     android.applicationVariants.all { variant ->
+diff --git a/app/src/main/java/org/schabi/newpipe/fragments/detail/VideoDetailFragment.java b/app/src/main/java/org/schabi/newpipe/fragments/detail/VideoDetailFragment.java
+index 6f18536..3632490 100644
+--- a/app/src/main/java/org/schabi/newpipe/fragments/detail/VideoDetailFragment.java
++++ b/app/src/main/java/org/schabi/newpipe/fragments/detail/VideoDetailFragment.java
+@@ -2248,6 +2248,7 @@ public final class VideoDetailFragment
+         activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+         activity.getWindow().setStatusBarColor(ThemeHelper.resolveColorFromAttr(
+                 requireContext(), android.R.attr.colorPrimary));
++        activity.getWindow().setNavigationBarColor(Color.BLACK);
+     }
+ 
+     private void hideSystemUi() {
+@@ -2280,7 +2281,7 @@ public final class VideoDetailFragment
+ 
+         if (isInMultiWindow || isPlayerAvailable() && player.isFullscreen()) {
+             activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
+-            activity.getWindow().setNavigationBarColor(Color.TRANSPARENT);
++            activity.getWindow().setNavigationBarColor(Color.BLACK);
+         }
+         activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+     }
+diff --git a/app/src/main/java/org/schabi/newpipe/player/Player.java b/app/src/main/java/org/schabi/newpipe/player/Player.java
+index e19aab1..e2b9355 100644
+--- a/app/src/main/java/org/schabi/newpipe/player/Player.java
++++ b/app/src/main/java/org/schabi/newpipe/player/Player.java
+@@ -2219,7 +2219,7 @@ public final class Player implements
+         final AppCompatActivity activity = getParentActivity();
+         if (isFullscreen && activity != null) {
+             activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
+-            activity.getWindow().setNavigationBarColor(Color.TRANSPARENT);
++            activity.getWindow().setNavigationBarColor(Color.BLACK);
+             final int visibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                     | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+diff --git a/app/src/main/res/layout/channel_header.xml b/app/src/main/res/layout/channel_header.xml
+index aa3a988..fe3f432 100644
+--- a/app/src/main/res/layout/channel_header.xml
++++ b/app/src/main/res/layout/channel_header.xml
+@@ -94,7 +94,7 @@
+             android:layout_alignLeft="@id/channel_title_view"
+             android:layout_alignRight="@id/channel_title_view"
+             android:ellipsize="end"
+-            android:maxLines="2"
++            android:maxLines="5"
+             android:textSize="@dimen/channel_subscribers_text_size"
+             android:visibility="gone"
+             tools:ignore="RtlHardcoded"
+diff --git a/app/src/main/res/layout/feed_group_card_item.xml b/app/src/main/res/layout/feed_group_card_item.xml
+index a6a89a6..f48fd58 100644
+--- a/app/src/main/res/layout/feed_group_card_item.xml
++++ b/app/src/main/res/layout/feed_group_card_item.xml
+@@ -35,7 +35,7 @@
+             android:background="?attr/card_item_contrast_color"
+             android:ellipsize="end"
+             android:gravity="center"
+-            android:maxLines="2"
++            android:maxLines="5"
+             android:padding="2dp"
+             android:textAllCaps="false"
+             android:textColor="?android:attr/textColorPrimary"
+diff --git a/app/src/main/res/layout/feed_group_reorder_item.xml b/app/src/main/res/layout/feed_group_reorder_item.xml
+index 8d72a26..6749223 100644
+--- a/app/src/main/res/layout/feed_group_reorder_item.xml
++++ b/app/src/main/res/layout/feed_group_reorder_item.xml
+@@ -40,7 +40,7 @@
+             android:layout_toLeftOf="@+id/handle"
+             android:layout_toRightOf="@+id/group_icon"
+             android:ellipsize="end"
+-            android:maxLines="2"
++            android:maxLines="5"
+             android:textAppearance="?textAppearanceListItem"
+             tools:ignore="RtlHardcoded"
+             tools:text="Lorem ipsum dolor sit amet" />
+diff --git a/app/src/main/res/layout/fragment_feed.xml b/app/src/main/res/layout/fragment_feed.xml
+index f09b047..26c8b13 100644
+--- a/app/src/main/res/layout/fragment_feed.xml
++++ b/app/src/main/res/layout/fragment_feed.xml
+@@ -31,7 +31,7 @@
+                 android:layout_height="wrap_content"
+                 android:ellipsize="end"
+                 android:gravity="start|center_vertical"
+-                android:maxLines="2"
++                android:maxLines="5"
+                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                 android:textSize="14sp"
+                 tools:text="@tools:sample/lorem/random" />
+diff --git a/app/src/main/res/layout/header_with_menu_item.xml b/app/src/main/res/layout/header_with_menu_item.xml
+index fcf888e..77bf41e 100644
+--- a/app/src/main/res/layout/header_with_menu_item.xml
++++ b/app/src/main/res/layout/header_with_menu_item.xml
+@@ -15,7 +15,7 @@
+         android:layout_weight="1"
+         android:ellipsize="end"
+         android:gravity="start|center_vertical"
+-        android:maxLines="2"
++        android:maxLines="5"
+         android:minHeight="24dp"
+         android:textColor="?android:attr/textColorPrimary"
+         android:textSize="16sp"
+diff --git a/app/src/main/res/layout/item_notification_config.xml b/app/src/main/res/layout/item_notification_config.xml
+index b68692d..ad9b607 100644
+--- a/app/src/main/res/layout/item_notification_config.xml
++++ b/app/src/main/res/layout/item_notification_config.xml
+@@ -7,7 +7,7 @@
+     android:background="?selectableItemBackground"
+     android:ellipsize="end"
+     android:gravity="center_vertical"
+-    android:maxLines="2"
++    android:maxLines="5"
+     android:orientation="horizontal"
+     android:paddingStart="?listPreferredItemPaddingStart"
+     android:paddingEnd="?listPreferredItemPaddingEnd"
+diff --git a/app/src/main/res/layout/item_search_suggestion.xml b/app/src/main/res/layout/item_search_suggestion.xml
+index 4b1025f..51005f5 100644
+--- a/app/src/main/res/layout/item_search_suggestion.xml
++++ b/app/src/main/res/layout/item_search_suggestion.xml
+@@ -38,7 +38,7 @@
+             android:layout_height="wrap_content"
+             android:layout_gravity="center_vertical"
+             android:ellipsize="end"
+-            android:maxLines="2"
++            android:maxLines="5"
+             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+             android:textSize="14sp"
+             tools:ignore="RtlHardcoded"
+diff --git a/app/src/main/res/layout/list_channel_item.xml b/app/src/main/res/layout/list_channel_item.xml
+index c09c17e..98d0f53 100644
+--- a/app/src/main/res/layout/list_channel_item.xml
++++ b/app/src/main/res/layout/list_channel_item.xml
+@@ -34,7 +34,7 @@
+         android:layout_height="wrap_content"
+         android:layout_marginBottom="@dimen/channel_item_description_to_details_margin"
+         android:ellipsize="end"
+-        android:maxLines="2"
++        android:maxLines="5"
+         android:textAppearance="?android:attr/textAppearanceSmall"
+         android:textSize="@dimen/video_item_search_uploader_text_size"
+         app:layout_constraintBottom_toTopOf="@+id/itemAdditionalDetails"
+diff --git a/app/src/main/res/layout/list_choose_tabs.xml b/app/src/main/res/layout/list_choose_tabs.xml
+index e6cebda..f632509 100644
+--- a/app/src/main/res/layout/list_choose_tabs.xml
++++ b/app/src/main/res/layout/list_choose_tabs.xml
+@@ -40,7 +40,7 @@
+             android:layout_toLeftOf="@+id/handle"
+             android:layout_toRightOf="@+id/tabIcon"
+             android:ellipsize="end"
+-            android:maxLines="2"
++            android:maxLines="5"
+             android:textAppearance="?textAppearanceListItem"
+             tools:ignore="RtlHardcoded"
+             tools:text="Lorem ipsum dolor sit amet" />
+diff --git a/app/src/main/res/layout/list_choose_tabs_dialog.xml b/app/src/main/res/layout/list_choose_tabs_dialog.xml
+index 2751371..d7fbc12 100644
+--- a/app/src/main/res/layout/list_choose_tabs_dialog.xml
++++ b/app/src/main/res/layout/list_choose_tabs_dialog.xml
+@@ -25,7 +25,7 @@
+         android:layout_marginRight="?dialogPreferredPadding"
+         android:layout_toRightOf="@+id/tabIcon"
+         android:ellipsize="end"
+-        android:maxLines="2"
++        android:maxLines="5"
+         android:textAppearance="?textAppearanceListItem"
+         tools:ignore="RtlHardcoded"
+         tools:text="Lorem ipsum dolor sit amet" />
+diff --git a/app/src/main/res/layout/list_playlist_bookmark_item.xml b/app/src/main/res/layout/list_playlist_bookmark_item.xml
+index 642ea29..bd9d86b 100644
+--- a/app/src/main/res/layout/list_playlist_bookmark_item.xml
++++ b/app/src/main/res/layout/list_playlist_bookmark_item.xml
+@@ -63,7 +63,7 @@
+         android:layout_toLeftOf="@id/itemHandle"
+         android:layout_toRightOf="@+id/itemThumbnailView"
+         android:ellipsize="end"
+-        android:maxLines="2"
++        android:maxLines="5"
+         android:textAppearance="?android:attr/textAppearanceLarge"
+         android:textSize="@dimen/video_item_search_title_text_size"
+         tools:ignore="RtlHardcoded"
+diff --git a/app/src/main/res/layout/list_playlist_card_item.xml b/app/src/main/res/layout/list_playlist_card_item.xml
+index c7dd4f1..a8f7049 100644
+--- a/app/src/main/res/layout/list_playlist_card_item.xml
++++ b/app/src/main/res/layout/list_playlist_card_item.xml
+@@ -69,7 +69,7 @@
+         android:layout_marginTop="@dimen/spacing_nano"
+         android:layout_marginEnd="@dimen/margin_small"
+         android:ellipsize="end"
+-        android:maxLines="2"
++        android:maxLines="5"
+         android:textAppearance="?android:textAppearanceListItem"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+diff --git a/app/src/main/res/layout/list_playlist_grid_item.xml b/app/src/main/res/layout/list_playlist_grid_item.xml
+index 1474dc2..1977356 100644
+--- a/app/src/main/res/layout/list_playlist_grid_item.xml
++++ b/app/src/main/res/layout/list_playlist_grid_item.xml
+@@ -50,7 +50,7 @@
+         android:layout_alignRight="@id/itemThumbnailView"
+         android:layout_marginTop="2dp"
+         android:ellipsize="end"
+-        android:maxLines="2"
++        android:maxLines="5"
+         android:textAppearance="?android:attr/textAppearanceLarge"
+         android:textSize="@dimen/video_item_search_title_text_size"
+         tools:ignore="RtlHardcoded"
+diff --git a/app/src/main/res/layout/list_playlist_item.xml b/app/src/main/res/layout/list_playlist_item.xml
+index 6643207..2b60191 100644
+--- a/app/src/main/res/layout/list_playlist_item.xml
++++ b/app/src/main/res/layout/list_playlist_item.xml
+@@ -49,7 +49,7 @@
+         android:layout_alignParentTop="true"
+         android:layout_toRightOf="@+id/itemThumbnailView"
+         android:ellipsize="end"
+-        android:maxLines="2"
++        android:maxLines="5"
+         android:textAppearance="?android:attr/textAppearanceLarge"
+         android:textSize="@dimen/video_item_search_title_text_size"
+         tools:ignore="RtlHardcoded"
+diff --git a/app/src/main/res/layout/list_playlist_mini_item.xml b/app/src/main/res/layout/list_playlist_mini_item.xml
+index a6bab9f..806c29a 100644
+--- a/app/src/main/res/layout/list_playlist_mini_item.xml
++++ b/app/src/main/res/layout/list_playlist_mini_item.xml
+@@ -49,7 +49,7 @@
+         android:layout_alignParentTop="true"
+         android:layout_toRightOf="@+id/itemThumbnailView"
+         android:ellipsize="end"
+-        android:maxLines="2"
++        android:maxLines="5"
+         android:textAppearance="?android:attr/textAppearanceLarge"
+         android:textSize="@dimen/video_item_search_title_text_size"
+         tools:ignore="RtlHardcoded"
+diff --git a/app/src/main/res/layout/list_radio_icon_item.xml b/app/src/main/res/layout/list_radio_icon_item.xml
+index 46e7419..6ea21e4 100644
+--- a/app/src/main/res/layout/list_radio_icon_item.xml
++++ b/app/src/main/res/layout/list_radio_icon_item.xml
+@@ -8,7 +8,7 @@
+     android:drawablePadding="24dp"
+     android:ellipsize="marquee"
+     android:gravity="center_vertical"
+-    android:maxLines="2"
++    android:maxLines="5"
+     android:minHeight="?attr/listPreferredItemHeightSmall"
+     android:paddingStart="?attr/listPreferredItemPaddingLeft"
+     android:paddingEnd="?attr/listPreferredItemPaddingRight"
+diff --git a/app/src/main/res/layout/list_stream_card_item.xml b/app/src/main/res/layout/list_stream_card_item.xml
+index 968dca0..5267280 100644
+--- a/app/src/main/res/layout/list_stream_card_item.xml
++++ b/app/src/main/res/layout/list_stream_card_item.xml
+@@ -49,7 +49,7 @@
+         android:layout_marginStart="@dimen/margin_small"
+         android:layout_marginEnd="@dimen/margin_small"
+         android:ellipsize="end"
+-        android:maxLines="2"
++        android:maxLines="5"
+         android:layout_marginTop="@dimen/margin_small"
+         android:textAppearance="?textAppearanceListItem"
+         app:layout_constraintEnd_toEndOf="@id/itemThumbnailView"
+diff --git a/app/src/main/res/layout/list_stream_grid_item.xml b/app/src/main/res/layout/list_stream_grid_item.xml
+index 1d6897c..be191ac 100644
+--- a/app/src/main/res/layout/list_stream_grid_item.xml
++++ b/app/src/main/res/layout/list_stream_grid_item.xml
+@@ -44,7 +44,7 @@
+         android:layout_width="0dp"
+         android:layout_height="wrap_content"
+         android:ellipsize="end"
+-        android:maxLines="2"
++        android:maxLines="5"
+         android:textAppearance="?android:attr/textAppearanceLarge"
+         android:textSize="@dimen/video_item_search_title_text_size"
+         app:layout_constraintBottom_toTopOf="@+id/itemUploaderView"
+diff --git a/app/src/main/res/layout/list_stream_item.xml b/app/src/main/res/layout/list_stream_item.xml
+index 5806ed9..d178b5a 100644
+--- a/app/src/main/res/layout/list_stream_item.xml
++++ b/app/src/main/res/layout/list_stream_item.xml
+@@ -43,7 +43,7 @@
+         android:layout_height="wrap_content"
+         android:layout_marginStart="@dimen/video_item_search_image_right_margin"
+         android:ellipsize="end"
+-        android:maxLines="2"
++        android:maxLines="5"
+         android:textAppearance="?android:attr/textAppearanceLarge"
+         android:textSize="@dimen/video_item_search_title_text_size"
+         app:layout_constraintBottom_toTopOf="@+id/itemUploaderView"
+diff --git a/app/src/main/res/layout/list_stream_mini_item.xml b/app/src/main/res/layout/list_stream_mini_item.xml
+index 5de3eac..34930ff 100644
+--- a/app/src/main/res/layout/list_stream_mini_item.xml
++++ b/app/src/main/res/layout/list_stream_mini_item.xml
+@@ -50,7 +50,7 @@
+         android:layout_toEndOf="@+id/itemThumbnailView"
+         android:layout_toRightOf="@+id/itemThumbnailView"
+         android:ellipsize="end"
+-        android:maxLines="2"
++        android:maxLines="5"
+         android:textAppearance="?android:attr/textAppearanceLarge"
+         android:textSize="@dimen/video_item_search_title_text_size"
+         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tristique vitae sem vitae blanditLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsumLorem ipsum" />
+diff --git a/app/src/main/res/layout/list_stream_playlist_card_item.xml b/app/src/main/res/layout/list_stream_playlist_card_item.xml
+index 9cc6b32..c0a89db 100644
+--- a/app/src/main/res/layout/list_stream_playlist_card_item.xml
++++ b/app/src/main/res/layout/list_stream_playlist_card_item.xml
+@@ -63,7 +63,7 @@
+         android:layout_marginTop="@dimen/spacing_nano"
+         android:layout_marginEnd="@dimen/spacing_micro"
+         android:ellipsize="end"
+-        android:maxLines="2"
++        android:maxLines="5"
+         android:textAppearance="?android:textAppearanceListItem"
+         app:layout_constraintEnd_toStartOf="@id/itemHandle"
+         app:layout_constraintStart_toStartOf="parent"
+diff --git a/app/src/main/res/layout/list_stream_playlist_grid_item.xml b/app/src/main/res/layout/list_stream_playlist_grid_item.xml
+index b6d623a..5c3094c 100644
+--- a/app/src/main/res/layout/list_stream_playlist_grid_item.xml
++++ b/app/src/main/res/layout/list_stream_playlist_grid_item.xml
+@@ -62,7 +62,7 @@
+         android:layout_alignEnd="@id/itemThumbnailView"
+         android:layout_alignRight="@id/itemThumbnailView"
+         android:ellipsize="end"
+-        android:maxLines="2"
++        android:maxLines="5"
+         android:textAppearance="?android:attr/textAppearanceLarge"
+         android:textSize="@dimen/video_item_search_title_text_size"
+         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tristique..." />
+diff --git a/app/src/main/res/layout/list_stream_playlist_item.xml b/app/src/main/res/layout/list_stream_playlist_item.xml
+index 9ac1045..1078fa1 100644
+--- a/app/src/main/res/layout/list_stream_playlist_item.xml
++++ b/app/src/main/res/layout/list_stream_playlist_item.xml
+@@ -63,7 +63,7 @@
+         android:layout_toEndOf="@+id/itemThumbnailView"
+         android:layout_toRightOf="@+id/itemThumbnailView"
+         android:ellipsize="end"
+-        android:maxLines="2"
++        android:maxLines="5"
+         android:textAppearance="?android:attr/textAppearanceLarge"
+         android:textSize="@dimen/video_item_search_title_text_size"
+         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc tristique..." />
+diff --git a/app/src/main/res/layout/local_playlist_header.xml b/app/src/main/res/layout/local_playlist_header.xml
+index 389b933..7b2cb04 100644
+--- a/app/src/main/res/layout/local_playlist_header.xml
++++ b/app/src/main/res/layout/local_playlist_header.xml
+@@ -13,7 +13,7 @@
+         android:clickable="true"
+         android:ellipsize="end"
+         android:focusable="true"
+-        android:maxLines="2"
++        android:maxLines="5"
+         android:paddingHorizontal="@dimen/video_item_search_padding"
+         android:paddingTop="@dimen/video_item_search_padding"
+         android:paddingBottom="6dp"
+diff --git a/app/src/main/res/layout/player.xml b/app/src/main/res/layout/player.xml
+index 8db2007..0eb4aec 100644
+--- a/app/src/main/res/layout/player.xml
++++ b/app/src/main/res/layout/player.xml
+@@ -623,7 +623,7 @@
+                 android:layout_marginStart="16dp"
+                 android:layout_marginEnd="56dp"
+                 android:ellipsize="end"
+-                android:maxLines="2"
++                android:maxLines="5"
+                 android:text="@string/chapters"
+                 android:textColor="@android:color/white"
+                 android:visibility="gone" />
+diff --git a/app/src/main/res/layout/playlist_header.xml b/app/src/main/res/layout/playlist_header.xml
+index 7c85a6d..bcd2d95 100644
+--- a/app/src/main/res/layout/playlist_header.xml
++++ b/app/src/main/res/layout/playlist_header.xml
+@@ -11,7 +11,7 @@
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:ellipsize="end"
+-        android:maxLines="2"
++        android:maxLines="5"
+         android:paddingHorizontal="@dimen/video_item_search_padding"
+         android:paddingTop="@dimen/video_item_search_padding"
+         android:textAppearance="?android:attr/textAppearanceLarge"
+diff --git a/app/src/main/res/values/dimens.xml b/app/src/main/res/values/dimens.xml
+index 1b34faf..94316d3 100644
+--- a/app/src/main/res/values/dimens.xml
++++ b/app/src/main/res/values/dimens.xml
+@@ -29,8 +29,8 @@
+     <dimen name="video_item_search_upload_date_text_size">12sp</dimen>
+     <!-- Elements Size -->
+     <!-- 16 / 9 ratio-->
+-    <dimen name="video_item_search_thumbnail_image_width">124dp</dimen>
+-    <dimen name="video_item_search_thumbnail_image_height">70dp</dimen>
++    <dimen name="video_item_search_thumbnail_image_width">80dp</dimen>
++    <dimen name="video_item_search_thumbnail_image_height">45dp</dimen>
+     <dimen name="video_item_search_avatar_image_width">70dp</dimen>
+     <dimen name="video_item_search_avatar_image_height">70dp</dimen>
+     <dimen name="video_item_search_avatar_left_margin">27dp</dimen>
+diff --git a/app/src/main/res/values/settings_keys.xml b/app/src/main/res/values/settings_keys.xml
+index e3c6506..3f6c57d 100644
+--- a/app/src/main/res/values/settings_keys.xml
++++ b/app/src/main/res/values/settings_keys.xml
+@@ -522,6 +522,7 @@
+     <!-- alternatively, load these from some local android data store -->
+     <string-array name="language_codes">
+         <item>@string/default_localization_key</item>
++        <item>xh</item>
+         <item>af</item>
+         <item>az</item>
+         <item>id</item>
+@@ -601,6 +602,7 @@
+     </string-array>
+     <string-array name="language_names">
+         <item>@string/systems_language</item>
++        <item>Xhosa</item>
+         <item>Afrikaans</item>
+         <item>Azərbaycan</item>
+         <item>Bahasa Indonesia</item>
+diff --git a/app/src/main/res/values/styles.xml b/app/src/main/res/values/styles.xml
+index 31e8dc0..68e7096 100644
+--- a/app/src/main/res/values/styles.xml
++++ b/app/src/main/res/values/styles.xml
+@@ -41,6 +41,7 @@
+         <item name="card_item_contrast_color">@color/light_card_item_contrast_color</item>
+         <item name="border_color">@color/light_border_color</item>
+         <item name="dashed_border">@drawable/dashed_border_light</item>
++        <item name="android:navigationBarColor">@android:color/black</item>
+     </style>
+     <style name="Base.LightTheme" parent="Base.V19.LightTheme" />
+     <style name="LightTheme" parent="Base.LightTheme"/>
+@@ -66,6 +67,7 @@
+         <item name="card_item_contrast_color">@color/dark_card_item_contrast_color</item>
+         <item name="border_color">@color/dark_border_color</item>
+         <item name="dashed_border">@drawable/dashed_border_dark</item>
++        <item name="android:navigationBarColor">@android:color/black</item>
+     </style>
+     <style name="Base.DarkTheme" parent="Base.V19.DarkTheme" />
+     <style name="DarkTheme" parent="Base.DarkTheme"/>
+@@ -83,6 +85,7 @@
+         <item name="card_item_contrast_color">@color/black_card_item_contrast_color</item>
+         <item name="border_color">@color/black_border_color</item>
+         <item name="dashed_border">@drawable/dashed_border_black</item>
++        <item name="android:navigationBarColor">@android:color/black</item>
+     </style>
+     <style name="Base.BlackTheme" parent="Base.V19.BlackTheme" />
+     <style name="BlackTheme" parent="Base.BlackTheme"/>
+@@ -94,6 +97,7 @@
+         <item name="colorAccent">@color/light_youtube_accent_color</item>
+         <item name="android:windowBackground">@color/light_dialog_background_color</item>
+         <item name="windowBackground">@color/light_dialog_background_color</item>
++        <item name="android:navigationBarColor">@android:color/black</item>
+     </style>
+ 
+     <style name="DarkDialogTheme" parent="Theme.AppCompat.DayNight.Dialog">
+@@ -102,6 +106,7 @@
+         <item name="colorAccent">@color/dark_youtube_accent_color</item>
+         <item name="android:windowBackground">@color/dark_dialog_background_color</item>
+         <item name="windowBackground">@color/dark_dialog_background_color</item>
++        <item name="android:navigationBarColor">@android:color/black</item>
+     </style>
+ 
+     <style name="LightDialogMinWidthTheme" parent="Theme.AppCompat.DayNight.Dialog.MinWidth">
+@@ -110,6 +115,7 @@
+         <item name="colorAccent">@color/light_youtube_accent_color</item>
+         <item name="android:windowBackground">@color/light_dialog_background_color</item>
+         <item name="windowBackground">@color/light_dialog_background_color</item>
++        <item name="android:navigationBarColor">@android:color/black</item>
+     </style>
+ 
+     <style name="DarkDialogMinWidthTheme" parent="Theme.AppCompat.DayNight.Dialog.MinWidth">
+@@ -118,19 +124,23 @@
+         <item name="colorAccent">@color/dark_youtube_accent_color</item>
+         <item name="android:windowBackground">@color/dark_dialog_background_color</item>
+         <item name="windowBackground">@color/dark_dialog_background_color</item>
++        <item name="android:navigationBarColor">@android:color/black</item>
+     </style>
+ 
+     <!-- Settings -->
+     <style name="LightSettingsTheme" parent="LightTheme">
+         <item name="colorAccent">@color/light_settings_accent_color</item>
++        <item name="android:navigationBarColor">@android:color/black</item>
+     </style>
+ 
+     <style name="DarkSettingsTheme" parent="DarkTheme">
+         <item name="colorAccent">@color/dark_settings_accent_color</item>
++        <item name="android:navigationBarColor">@android:color/black</item>
+     </style>
+ 
+     <style name="BlackSettingsTheme" parent="BlackTheme">
+         <item name="colorAccent">@color/black_settings_accent_color</item>
++        <item name="android:navigationBarColor">@android:color/black</item>
+     </style>
+ 
+     <style name="RouterActivityThemeLight" parent="LightTheme">
+@@ -139,6 +149,7 @@
+         <item name="android:colorBackgroundCacheHint">@null</item>
+         <item name="android:windowIsTranslucent">true</item>
+         <item name="android:windowAnimationStyle">@null</item>
++        <item name="android:navigationBarColor">@android:color/black</item>
+     </style>
+ 
+     <style name="RouterActivityThemeDark" parent="DarkTheme">
+@@ -147,6 +158,7 @@
+         <item name="android:colorBackgroundCacheHint">@null</item>
+         <item name="android:windowIsTranslucent">true</item>
+         <item name="android:windowAnimationStyle">@null</item>
++        <item name="android:navigationBarColor">@android:color/black</item>
+     </style>
+ 
+ 
+diff --git a/compile b/compile
+index 9db2e29..a98cdca 100755
+--- a/compile
++++ b/compile
+@@ -2,14 +2,14 @@
+ 
+ 
+ export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+-rm app/build -fr
++#rm app/build -fr
+ #./gradlew assembleDebug -DskipFormatKtlint 
+ ./gradlew assembleRelease -DskipFormatKtlint  --parallel 
+-exit 0
++#exit 0
+ 
+ ~/android/build-tools/34.0.0/apksigner sign --ks-key-alias alias_name  --ks \
+   ~/android/p/PipePipe/PipePipeClient/my-key.keystore \
+-app/build/outputs/apk/release/PipePipe_4.8.1-arm64-v8a-release-unsigned.apk
++app/build/outputs/apk/release/app-arm64-v8a-release-unsigned.apk
+ 
+-adb install -g app/build/outputs/apk/release/PipePipe_4.8.1-arm64-v8a-release-unsigned.apk
++adb install -g app/build/outputs/apk/release/app-arm64-v8a-release-unsigned.apk
+ 
