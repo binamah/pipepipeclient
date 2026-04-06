@@ -94,7 +94,7 @@
             android:layout_alignLeft="@id/channel_title_view"
             android:layout_alignRight="@id/channel_title_view"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:maxLines="5"
             android:textSize="@dimen/channel_subscribers_text_size"
             android:visibility="gone"
             tools:ignore="RtlHardcoded"

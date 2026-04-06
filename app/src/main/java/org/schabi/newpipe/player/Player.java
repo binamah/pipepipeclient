@@ -2219,7 +2219,7 @@ public final class Player implements
         final AppCompatActivity activity = getParentActivity();
         if (isFullscreen && activity != null) {
             activity.getWindow().setStatusBarColor(Color.TRANSPARENT);
-            activity.getWindow().setNavigationBarColor(Color.TRANSPARENT);
+            activity.getWindow().setNavigationBarColor(Color.BLACK);
             final int visibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;

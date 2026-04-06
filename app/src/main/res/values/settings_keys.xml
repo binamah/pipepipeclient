@@ -522,6 +522,7 @@
     <!-- alternatively, load these from some local android data store -->
     <string-array name="language_codes">
         <item>@string/default_localization_key</item>
+        <item>xh</item>
         <item>af</item>
         <item>az</item>
         <item>id</item>
@@ -601,6 +602,7 @@
     </string-array>
     <string-array name="language_names">
         <item>@string/systems_language</item>
+        <item>Xhosa</item>
         <item>Afrikaans</item>
         <item>Azərbaycan</item>
         <item>Bahasa Indonesia</item>

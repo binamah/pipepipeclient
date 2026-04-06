@@ -63,7 +63,7 @@
         android:layout_toLeftOf="@id/itemHandle"
         android:layout_toRightOf="@+id/itemThumbnailView"
         android:ellipsize="end"
-        android:maxLines="2"
+        android:maxLines="5"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="@dimen/video_item_search_title_text_size"
         tools:ignore="RtlHardcoded"

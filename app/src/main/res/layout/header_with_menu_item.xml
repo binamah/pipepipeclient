@@ -15,7 +15,7 @@
         android:layout_weight="1"
         android:ellipsize="end"
         android:gravity="start|center_vertical"
-        android:maxLines="2"
+        android:maxLines="5"
         android:minHeight="24dp"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="16sp"
